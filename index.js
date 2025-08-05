@@ -62,7 +62,7 @@ client.on('message', async message => {
   
     console.log(`📥 Reçu de ${fromNumber} à ${timestamp}: ${message.body}`);
   
-    await axios.post('https://api2.travelyou.ma/bot/messages/', {
+    await axios.post('https://api2.trave4lyou.ma/bot/messages/', {
       phone_number: fromNumber,
       message_preview: message.body,
       timestamp: timestamp,
@@ -77,7 +77,7 @@ client.on('message', async message => {
   
     console.log(`📤 Envoyé à ${toNumber} à ${timestamp}: ${message.body}`);
   
-    await axios.post('https://api2.travelyou.ma/bot/messages/', {
+    await axios.post('https://api2.travel4you.ma/bot/messages/', {
       phone_number: toNumber,
       message_preview: message.body,
       timestamp: timestamp,
@@ -102,7 +102,7 @@ app.get('/whatsapp-status', (req, res) => {
 // Envoi relance clients (exemple)
 const sendRelance = async () => {
   try {
-    const response = await axios.get('https://api2.travelyou.ma/bot/clients-a-relancer/');
+    const response = await axios.get('https://api2.travel4you.ma/bot/clients-a-relancer/');
     const clients = response.data;
 
     for (const clientData of clients) {
@@ -127,7 +127,7 @@ app.get('/send-relance', (req, res) => {
 });
 const sendPasInteresse = async () => {
     try {
-      const response = await axios.get('https://api2.travelyou.ma/bot/clients-pas-interesse/');
+      const response = await axios.get('https://api2.travel4you.ma/bot/clients-pas-interesse/');
       const clients = response.data;
   
       for (const clientData of clients) {
@@ -155,7 +155,7 @@ const sendPasInteresse = async () => {
 // Envoi relance paiement
 const sendRelancePayer = async () => {
   try {
-    const response = await axios.get('https://api2.travelyou.ma/bot/clients-a-payer/');
+    const response = await axios.get('https://api2.travel4you.ma/bot/clients-a-payer/');
     const clients = response.data;
 
     for (const clientData of clients) {
