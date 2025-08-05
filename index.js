@@ -62,7 +62,7 @@ client.on('message', async message => {
   
     console.log(`📥 Reçu de ${fromNumber} à ${timestamp}: ${message.body}`);
   
-    await axios.post('https://api2.trave4lyou.ma/bot/messages/', {
+    await axios.post('https://api2.travel4you.ma/bot/messages/', {
       phone_number: fromNumber,
       message_preview: message.body,
       timestamp: timestamp,
@@ -133,7 +133,7 @@ const sendPasInteresse = async () => {
       for (const clientData of clients) {
         const numero = clientData.telephone.replace(/\D/g, '');
         const message = `Bonjour ${clientData.nom_complet}, Nous restons disponibles.
-        Vous pouvez consulter nos offres à tout moment sur notre site web : https://adgital.ma`;
+        Vous pouvez consulter nos offres à tout moment sur notre site web : www.travel4you.ma`;
   
         try {
           await client.sendMessage(`${numero}@c.us`, message);
