@@ -205,7 +205,7 @@ app.get('/start-session', async (req, res) => {
     }
   });
 
-  const PORT = process.env.PORT || 3001;
+  const PORT = process.env.PORT || 8080;
   app.listen(PORT, () => {
     console.log(`🚀 Serveur HTTP démarré sur http://localhost:${PORT}`);
   });
