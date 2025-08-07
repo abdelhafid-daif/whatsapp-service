@@ -55,7 +55,47 @@ client.on('disconnected', reason => {
   console.log('⚠️ Déconnecté de WhatsApp', reason);
   isClientReady = false;
 });
-
+const syncAllContacts = async () => {
+    try {
+      const chats = await client.getChats();
+  
+      for (const chat of chats) {
+        if (chat.isGroup) continue; // ignore les groupes
+  
+        const phone_number = chat.id.user;
+        const message_preview = chat.lastMessage ? chat.lastMessage.body : "";
+        const timestamp = chat.lastMessage
+          ? new Date(chat.lastMessage.timestamp * 1000).toISOString()
+          : new Date().toISOString(); // Si pas de message, on prend la date actuelle
+  
+        try {
+          await axios.post('https://api2.travelyou.ma/bot/messages/', {
+            phone_number,
+            message_preview,
+            timestamp,
+            direction: "sync" // ← tu peux définir un type spécial si besoin
+          });
+          console.log(`✅ Syncé avec ${phone_number}`);
+        } catch (err) {
+          console.error(`❌ Erreur sync ${phone_number}:`, err.message);
+        }
+      }
+    } catch (err) {
+      console.error('❌ Erreur récupération des chats:', err.message);
+    }
+  };
+  app.get('/sync-contacts', async (req, res) => {
+    await syncAllContacts();
+    res.json({ status: "Contacts synchronisés avec succès" });
+  });
+  client.on('ready', () => {
+    console.log('✅ Client WhatsApp prêt');
+    qrCodeData = null;
+    isClientReady = true;
+  
+    syncAllContacts();
+    setInterval(syncAllContacts, 2 * 60 * 1000);
+  });
 client.on('message', async message => {
     const fromNumber = message.from.split('@')[0];
     const timestamp = new Date(message.timestamp * 1000).toISOString(); // convert Unix timestamp
