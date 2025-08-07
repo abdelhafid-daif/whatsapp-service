@@ -69,7 +69,7 @@ const syncAllContacts = async () => {
           : new Date().toISOString(); // Si pas de message, on prend la date actuelle
   
         try {
-          await axios.post('https://api2.travelyou.ma/bot/messages/', {
+          await axios.post('https://api2.travel4you.ma/bot/messages/', {
             phone_number,
             message_preview,
             timestamp,
