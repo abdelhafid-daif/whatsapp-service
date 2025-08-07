@@ -55,6 +55,43 @@ client.on('disconnected', reason => {
   console.log('⚠️ Déconnecté de WhatsApp', reason);
   isClientReady = false;
 });
+const getMessagePreview = (lastMessage) => {
+    if (!lastMessage) return "";
+  
+    // Exemple de traitement d'appel (call_log)
+    if (lastMessage.type === 'call_log' && lastMessage.subtype) {
+      switch (lastMessage.subtype) {
+        case 'missed':
+          return "[Appel manqué]";
+        case 'outgoing':
+          return "[Appel sortant]";
+        case 'incoming':
+          return "[Appel entrant]";
+        default:
+          return "[Appel]";
+      }
+    }
+  
+    switch (lastMessage.type) {
+      case 'chat': // message texte
+        return lastMessage.body || "";
+      case 'audio':
+      case 'ptt': // message vocal
+        return "[Message audio]";
+      case 'image':
+        return "[Image]";
+      case 'video':
+        return "[Vidéo]";
+      case 'sticker':
+        return "[Sticker]";
+      case 'document':
+        return "[Document]";
+      case 'location':
+        return "[Localisation]";
+      default:
+        return "[Message non textuel]";
+    }
+  };
 const syncAllContacts = async () => {
     try {
       const chats = await client.getChats();
@@ -63,7 +100,7 @@ const syncAllContacts = async () => {
         if (chat.isGroup) continue; // ignore les groupes
   
         const phone_number = chat.id.user;
-        const message_preview = chat.lastMessage ? chat.lastMessage.body : "";
+        const message_preview = getMessagePreview(chat.lastMessage);
         const timestamp = chat.lastMessage
           ? new Date(chat.lastMessage.timestamp * 1000).toISOString()
           : new Date().toISOString(); // Si pas de message, on prend la date actuelle
