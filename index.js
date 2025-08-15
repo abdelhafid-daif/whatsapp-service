@@ -505,6 +505,8 @@ app.get('/whatsapp-sync-contacts', async (req, res) => {
 client.initialize();
 
 // Start server
-app.listen(port, () => {
-    console.log(`🚀 Serveur écoute sur http://localhost:${port}`);
+const actualPort = process.env.PORT || 3000;
+app.listen(actualPort, () => {
+    console.log(`🚀 Serveur écoute sur http://localhost:${actualPort}`);
+    console.log(`Listening on port ${actualPort}`);
 });
