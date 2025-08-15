@@ -204,7 +204,6 @@ const axios = require('axios');
 const app = express();
 const port = 3000;
 
-const cors = require('cors');
 app.use(cors({ origin: 'https://backoff.travel4you.ma' }));
 app.use(express.json());
 app.use(bodyParser.json());
