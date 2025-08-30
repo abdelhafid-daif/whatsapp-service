@@ -193,8 +193,7 @@
 //     console.log(`Le serveur écoute sur le port ${port}`);
 //     console.log(`Endpoint pour envoyer des messages: http://localhost:${port}/send`);
 // });
-const dataPath = process.env.WWEBJS_DATA_PATH || './.wwebjs_auth';
-const chromePath = process.env.CHROME_BIN || undefined;
+
 const express = require('express');
 const cors = require('cors');
 const bodyParser = require('body-parser');
@@ -217,10 +216,9 @@ let lastQrCode = null;
 
 // Init WhatsApp client
 const client = new Client({
-    authStrategy: new LocalAuth(dataPath ),
+    authStrategy: new LocalAuth(),
     puppeteer: {
         headless: true,
-        executablePath: chromePath,
         args: [
           '--no-sandbox',
           '--disable-setuid-sandbox',
